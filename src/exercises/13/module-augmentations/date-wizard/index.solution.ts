@@ -1,11 +1,16 @@
+// This enables module augmentation mode.
 import 'date-wizard';
 
 declare module 'date-wizard' {
-    const pad: (ident: number) => string;
-
+    // Add your module extensions here.
     interface DateDetails {
+        year: number;
+        month: number;
+        date: number;
         hours: number;
         minutes: number;
         seconds: number;
     }
+
+    function pad(date: number): string;
 }

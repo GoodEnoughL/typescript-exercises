@@ -66,14 +66,20 @@ export type ApiResponse<T> = (
         status: 'success';
         data: T;
     } |
-    {
+    { 
         status: 'error';
         error: string;
     }
 );
 
-export function promisify(arg: unknown): unknown {
-    return null;
+export function promisify<T>(fn: (callback: (response: ApiResponse<T>) => void) => void): () => Promise<T> {
+  return () =>
+    new Promise((resolve, reject) => {
+      fn((response) => {
+        if (response.status === "success") resolve(response.data);
+        else reject(response.error);
+      });
+    });
 }
 
 const oldApi = {

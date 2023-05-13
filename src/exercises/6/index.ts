@@ -57,8 +57,10 @@ export function logPerson(person: Person) {
         ` - ${person.name}, ${person.age}, ${person.type === 'admin' ? person.role : person.occupation}`
     );
 }
-
-export function filterPersons(persons: Person[], personType: string, criteria: unknown): unknown[] {
+ // 这里filterPersions可能接受到Admin类型，所以不可以声明为User
+export function filterPersons(persons: Person[], personType: 'user', criteria: Partial<User>): User[]
+export function filterPersons(persons: Person[], personType: 'admin', criteria: Partial<Admin>): Admin[]
+export function filterPersons(persons: Person[], personType: string, criteria: Partial<Person>): Person[] {
     return persons
         .filter((person) => person.type === personType)
         .filter((person) => {
